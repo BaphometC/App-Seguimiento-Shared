@@ -1,6 +1,8 @@
 package com.seguimiento.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class FinanzasController {
 	@GetMapping("/finanzas/{idMes}/{idUsuario}")
 	public ResponseEntity<List<Suscripcion>> getFinanzas(@PathVariable long idMes, @PathVariable long idUsuario) {
 		List<Suscripcion> listames = suscripcionRepo.findByMes(mesRepo.findById(idMes).get());
-		List<Suscripcion> newlista = listames.stream().filter(l -> l.getUsuario().getId() == idUsuario).toList();
+		List<Suscripcion> newlista = listames.stream().filter(l -> l.getUsuario().getId() == idUsuario).collect(Collectors.toList());
 		return new ResponseEntity<List<Suscripcion>>(newlista, HttpStatus.OK);
 	}
 }
